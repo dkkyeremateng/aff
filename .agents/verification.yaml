@@ -1,0 +1,8 @@
+# The factory's own gate for this repository.
+timeout_seconds: 600
+memory_mb: 2048
+network: none
+commands:
+  - go build ./...
+  - go vet ./...
+  - gofmt -l .
