@@ -7,7 +7,7 @@ import "strings"
 func Hello(name string) string {
 	name = strings.TrimSpace(name)
 	if name == "" {
-		return "Hello!"
+		return "Hello there!"
 	}
 	return "Hello, " + name + "!"
 }
@@ -16,7 +16,7 @@ func Hello(name string) string {
 func Farewell(name string) string {
 	name = strings.TrimSpace(name)
 	if name == "" {
-		return "Goodbye!"
+		return "Goodbye there!"
 	}
 	return "Goodbye, " + name + "!"
 }

@@ -12,7 +12,7 @@ func TestHello(t *testing.T) {
 
 func TestHelloEmpty(t *testing.T) {
 	got := Hello("")
-	want := "Hello!"
+	want := "Hello there!"
 	if got != want {
 		t.Errorf("Hello(%q) = %q, want %q", "", got, want)
 	}
@@ -28,7 +28,7 @@ func TestFarewell(t *testing.T) {
 
 func TestFarewellEmpty(t *testing.T) {
 	got := Farewell("")
-	want := "Goodbye!"
+	want := "Goodbye there!"
 	if got != want {
 		t.Errorf("Farewell(%q) = %q, want %q", "", got, want)
 	}
