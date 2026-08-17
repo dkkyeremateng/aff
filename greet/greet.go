@@ -3,9 +3,14 @@ package greet
 
 import "strings"
 
+// normalizeName trims surrounding whitespace from name.
+func normalizeName(name string) string {
+	return strings.TrimSpace(name)
+}
+
 // Hello returns a greeting for the given name.
 func Hello(name string) string {
-	name = strings.TrimSpace(name)
+	name = normalizeName(name)
 	if name == "" {
 		return "Hello there!"
 	}
@@ -14,7 +19,7 @@ func Hello(name string) string {
 
 // Farewell returns a farewell for the given name.
 func Farewell(name string) string {
-	name = strings.TrimSpace(name)
+	name = normalizeName(name)
 	if name == "" {
 		return "Goodbye there!"
 	}
