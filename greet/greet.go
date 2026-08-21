@@ -25,3 +25,12 @@ func Farewell(name string) string {
 	}
 	return "Goodbye, " + name + "!"
 }
+
+// Thanks returns thanks for the given name.
+func Thanks(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Thank you!"
+	}
+	return "Thanks, " + name + "!"
+}
