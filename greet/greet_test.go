@@ -96,3 +96,24 @@ func TestWelcome(t *testing.T) {
 		})
 	}
 }
+
+func TestGoodEvening(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "direct name", input: "Ada", want: "Good evening, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Good evening, Ada!"},
+		{name: "empty name", input: "", want: "Good evening!"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := GoodEvening(tt.input)
+			if got != tt.want {
+				t.Errorf("GoodEvening(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}

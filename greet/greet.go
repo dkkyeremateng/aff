@@ -52,3 +52,12 @@ func Congrats(name string) string {
 	}
 	return "Congrats, " + name + "!"
 }
+
+// GoodEvening returns an evening greeting for the given name.
+func GoodEvening(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Good evening!"
+	}
+	return "Good evening, " + name + "!"
+}
