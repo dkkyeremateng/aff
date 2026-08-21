@@ -1,0 +1,1 @@
+This team has no planner and there is no .agent/plan.md to build from. Run a team that includes a planner (e.g. plan-build or spec) first, then re-run the build team to resume the implementation from the saved plan.

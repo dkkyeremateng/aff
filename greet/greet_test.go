@@ -33,3 +33,24 @@ func TestFarewellEmpty(t *testing.T) {
 		t.Errorf("Farewell(%q) = %q, want %q", "", got, want)
 	}
 }
+
+func TestThanks(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "named", input: "Ada", want: "Thanks, Ada!"},
+		{name: "whitespace-padded", input: " Ada ", want: "Thanks, Ada!"},
+		{name: "empty", input: "", want: "Thank you!"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := Thanks(test.input)
+			if got != test.want {
+				t.Errorf("Thanks(%q) = %q, want %q", test.input, got, test.want)
+			}
+		})
+	}
+}
