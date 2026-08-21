@@ -52,3 +52,12 @@ func Congrats(name string) string {
 	}
 	return "Congrats, " + name + "!"
 }
+
+// Apologise returns an apology for the given name.
+func Apologise(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Sorry!"
+	}
+	return "Sorry, " + name + "!"
+}
