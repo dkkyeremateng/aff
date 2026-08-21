@@ -34,3 +34,12 @@ func Thanks(name string) string {
 	}
 	return "Thanks, " + name + "!"
 }
+
+// Congrats returns congratulations for the given name.
+func Congrats(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Congratulations!"
+	}
+	return "Congrats, " + name + "!"
+}
