@@ -44,6 +44,15 @@ func Welcome(name string) string {
 	return "Welcome, " + name + "!"
 }
 
+// WelcomeBack returns a return greeting for the given name.
+func WelcomeBack(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Welcome back!"
+	}
+	return "Welcome back, " + name + "!"
+}
+
 // Congrats returns congratulations for the given name.
 func Congrats(name string) string {
 	name = normalizeName(name)

@@ -96,3 +96,24 @@ func TestWelcome(t *testing.T) {
 		})
 	}
 }
+
+func TestWelcomeBack(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "direct name", input: "Ada", want: "Welcome back, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Welcome back, Ada!"},
+		{name: "empty name", input: "", want: "Welcome back!"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := WelcomeBack(tt.input)
+			if got != tt.want {
+				t.Errorf("WelcomeBack(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
