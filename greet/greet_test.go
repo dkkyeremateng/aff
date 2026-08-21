@@ -54,3 +54,24 @@ func TestThanks(t *testing.T) {
 		})
 	}
 }
+
+func TestCongrats(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "direct name", input: "Ada", want: "Congrats, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Congrats, Ada!"},
+		{name: "empty name", input: "", want: "Congratulations!"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Congrats(tt.input)
+			if got != tt.want {
+				t.Errorf("Congrats(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
