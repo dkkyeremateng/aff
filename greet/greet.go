@@ -57,7 +57,7 @@ func Congrats(name string) string {
 func Apologise(name string) string {
 	name = normalizeName(name)
 	if name == "" {
-		return "Sorry!"
+		return "Apologies!"
 	}
-	return "Sorry, " + name + "!"
+	return "Apologies, " + name + "!"
 }

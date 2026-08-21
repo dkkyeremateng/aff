@@ -103,10 +103,10 @@ func TestApologise(t *testing.T) {
 		input string
 		want  string
 	}{
-		{name: "direct name", input: "Ada", want: "Sorry, Ada!"},
-		{name: "whitespace-padded name", input: " Ada ", want: "Sorry, Ada!"},
-		{name: "empty name", input: "", want: "Sorry!"},
-		{name: "whitespace-only name", input: " 	 ", want: "Sorry!"},
+		{name: "direct name", input: "Ada", want: "Apologies, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Apologies, Ada!"},
+		{name: "empty name", input: "", want: "Apologies!"},
+		{name: "whitespace-only name", input: " 	 ", want: "Apologies!"},
 	}
 
 	for _, tt := range tests {
