@@ -96,3 +96,24 @@ func TestWelcome(t *testing.T) {
 		})
 	}
 }
+
+func TestApologize(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "direct name", input: "Ada", want: "Sorry, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Sorry, Ada!"},
+		{name: "empty name", input: "", want: "Sorry about that!"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Apologize(tt.input)
+			if got != tt.want {
+				t.Errorf("Apologize(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
