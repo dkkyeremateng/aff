@@ -52,3 +52,12 @@ func Congrats(name string) string {
 	}
 	return "Congrats, " + name + "!"
 }
+
+// GoodLuck returns a good-luck wish for the given name.
+func GoodLuck(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Good luck!"
+	}
+	return "Good luck, " + name + "!"
+}
