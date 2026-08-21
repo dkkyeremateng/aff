@@ -35,6 +35,15 @@ func Thanks(name string) string {
 	return "Thanks, " + name + "!"
 }
 
+// GoodNight returns a good-night greeting for the given name.
+func GoodNight(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Good night!"
+	}
+	return "Good night, " + name + "!"
+}
+
 // Welcome returns a welcome for the given name.
 func Welcome(name string) string {
 	name = normalizeName(name)
