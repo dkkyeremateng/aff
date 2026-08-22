@@ -53,6 +53,15 @@ func Congrats(name string) string {
 	return "Congrats, " + name + "!"
 }
 
+// Salute returns a respectful greeting for the given name.
+func Salute(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Respect!"
+	}
+	return "Respect, " + name + "!"
+}
+
 // Cheer returns a congratulatory message for the given name.
 func Cheer(name string) string {
 	name = normalizeName(name)

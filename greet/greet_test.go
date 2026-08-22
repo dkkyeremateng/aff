@@ -97,6 +97,27 @@ func TestWelcome(t *testing.T) {
 	}
 }
 
+func TestSalute(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "direct name", input: "Ada", want: "Respect, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Respect, Ada!"},
+		{name: "empty name", input: "", want: "Respect!"},
+		{name: "whitespace-only name", input: " ", want: "Respect!"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Salute(tt.input)
+			if got != tt.want {
+				t.Errorf("Salute(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
 func TestCheer(t *testing.T) {
 	tests := []struct {
 		name  string
