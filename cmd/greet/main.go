@@ -16,10 +16,10 @@ import (
 var version = "dev"
 
 func main() {
-	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr))
+	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))
 }
 
-func run(args []string, stdout, stderr io.Writer) int {
+func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("greet", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 
@@ -49,8 +49,36 @@ func run(args []string, stdout, stderr io.Writer) int {
 		return 0
 	}
 
+	nameProvided := false
+	fs.Visit(func(f *flag.Flag) {
+		if f.Name == "name" || f.Name == "n" {
+			nameProvided = true
+		}
+	})
+
+	if !nameProvided && !stdinIsTerminal(stdin) {
+		data, err := io.ReadAll(stdin)
+		if err != nil {
+			fmt.Fprintf(stderr, "greet: %v\n", err)
+			return 1
+		}
+		name = strings.TrimSpace(string(data))
+	}
+
 	fmt.Fprintln(stdout, greet.Hello(name))
 	return 0
+}
+
+func stdinIsTerminal(r io.Reader) bool {
+	f, ok := r.(*os.File)
+	if !ok {
+		return false
+	}
+	fi, err := f.Stat()
+	if err != nil {
+		return true
+	}
+	return fi.Mode()&os.ModeCharDevice != 0
 }
 
 func printUsage(stdout io.Writer) {
