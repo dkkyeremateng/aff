@@ -86,8 +86,8 @@ func printUsage(stdout io.Writer) {
 	fmt.Fprintln(stdout)
 	fmt.Fprintln(stdout, "Flags:")
 	fmt.Fprintln(stdout, " -n, --name string name to greet")
-	fmt.Fprintln(stdout, "  --version       print the version and exit")
-	fmt.Fprintln(stdout, "  --help          show this help")
+	fmt.Fprintln(stdout, " --version         print the version and exit")
+	fmt.Fprintln(stdout, " --help            show this help")
 }
 
 func unknownFlagName(fs *flag.FlagSet, args []string) string {

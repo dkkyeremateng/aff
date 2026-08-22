@@ -130,9 +130,15 @@ func TestRun(t *testing.T) {
 			wantStderrOnly: true,
 		},
 		{
-			name:           "help flag",
-			args:           []string{"--help"},
-			wantCode:       0,
+			name:     "help flag",
+			args:     []string{"--help"},
+			wantCode: 0,
+			wantStdout: "Usage: greet [flags]\n" +
+				"\n" +
+				"Flags:\n" +
+				" -n, --name string name to greet\n" +
+				" --version         print the version and exit\n" +
+				" --help            show this help\n",
 			stdoutContains: []string{"-n", "--name", "--version"},
 		},
 	}
