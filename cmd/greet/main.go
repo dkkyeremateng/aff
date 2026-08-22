@@ -23,7 +23,9 @@ func run(args []string, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("greet", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 
-	name := fs.String("name", "", "name to greet")
+	var name string
+	fs.StringVar(&name, "name", "", "name to greet")
+	fs.StringVar(&name, "n", "", "name to greet (shorthand)")
 	showVersion := fs.Bool("version", false, "print the version and exit")
 
 	fs.Usage = func() {}
@@ -47,7 +49,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 		return 0
 	}
 
-	fmt.Fprintln(stdout, greet.Hello(*name))
+	fmt.Fprintln(stdout, greet.Hello(name))
 	return 0
 }
 
@@ -55,7 +57,7 @@ func printUsage(stdout io.Writer) {
 	fmt.Fprintln(stdout, "Usage: greet [flags]")
 	fmt.Fprintln(stdout)
 	fmt.Fprintln(stdout, "Flags:")
-	fmt.Fprintln(stdout, "  --name string   name to greet")
+	fmt.Fprintln(stdout, " -n, --name string name to greet")
 	fmt.Fprintln(stdout, "  --version       print the version and exit")
 	fmt.Fprintln(stdout, "  --help          show this help")
 }

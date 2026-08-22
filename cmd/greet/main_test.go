@@ -23,6 +23,18 @@ func TestRun(t *testing.T) {
 			wantStdout: "Hello, Ada!\n",
 		},
 		{
+			name:       "name shorthand",
+			args:       []string{"-n", "Ada"},
+			wantCode:   0,
+			wantStdout: "Hello, Ada!\n",
+		},
+		{
+			name:       "name shorthand with equals",
+			args:       []string{"-n=Ada"},
+			wantCode:   0,
+			wantStdout: "Hello, Ada!\n",
+		},
+		{
 			name:       "no args",
 			args:       nil,
 			wantCode:   0,
@@ -37,6 +49,12 @@ func TestRun(t *testing.T) {
 		{
 			name:           "version wins over name",
 			args:           []string{"--version", "--name", "Ada"},
+			wantCode:       0,
+			stdoutContains: []string{"greet version dev"},
+		},
+		{
+			name:           "version wins over shorthand",
+			args:           []string{"--version", "-n", "Ada"},
 			wantCode:       0,
 			stdoutContains: []string{"greet version dev"},
 		},
@@ -58,7 +76,7 @@ func TestRun(t *testing.T) {
 			name:           "help flag",
 			args:           []string{"--help"},
 			wantCode:       0,
-			stdoutContains: []string{"--name", "--version"},
+			stdoutContains: []string{"-n", "--name", "--version"},
 		},
 	}
 
