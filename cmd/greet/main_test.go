@@ -8,13 +8,14 @@ import (
 
 func TestRun(t *testing.T) {
 	tests := []struct {
-		name           string
-		args           []string
-		wantCode       int
-		wantStdout     string
-		stdoutContains []string
-		stderrContains []string
-		wantStderrOnly bool
+		name            string
+		args            []string
+		wantCode        int
+		wantStdout      string
+		stdoutContains  []string
+		stderrContains  []string
+		wantStderrEmpty bool
+		wantStderrOnly  bool
 	}{
 		{
 			name:       "name flag",
@@ -35,10 +36,18 @@ func TestRun(t *testing.T) {
 			wantStdout: "Hello, Ada!\n",
 		},
 		{
-			name:       "no args",
-			args:       nil,
-			wantCode:   0,
-			wantStdout: "Hello there!\n",
+			name:            "no args",
+			args:            nil,
+			wantCode:        0,
+			wantStdout:      "Hello there!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "no args empty slice",
+			args:            []string{},
+			wantCode:        0,
+			wantStdout:      "Hello there!\n",
+			wantStderrEmpty: true,
 		},
 		{
 			name:           "version flag",
@@ -99,6 +108,9 @@ func TestRun(t *testing.T) {
 				if !strings.Contains(stderr.String(), want) {
 					t.Errorf("run(%q) stderr = %q, want it to contain %q", tt.args, stderr.String(), want)
 				}
+			}
+			if tt.wantStderrEmpty && stderr.String() != "" {
+				t.Errorf("run(%q) stderr = %q, want empty", tt.args, stderr.String())
 			}
 			if tt.wantStderrOnly {
 				if stdout.String() != "" {
