@@ -52,3 +52,12 @@ func Congrats(name string) string {
 	}
 	return "Congrats, " + name + "!"
 }
+
+// Console returns encouragement for the given name.
+func Console(name string) string {
+	name = normalizeName(name)
+	if name == "" {
+		return "Chin up!"
+	}
+	return "Chin up, " + name + "!"
+}

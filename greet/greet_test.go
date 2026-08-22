@@ -96,3 +96,24 @@ func TestWelcome(t *testing.T) {
 		})
 	}
 }
+
+func TestConsole(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "direct name", input: "Ada", want: "Chin up, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Chin up, Ada!"},
+		{name: "empty name", input: "", want: "Chin up!"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Console(tt.input)
+			if got != tt.want {
+				t.Errorf("Console(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
