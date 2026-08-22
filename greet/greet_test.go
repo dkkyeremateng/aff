@@ -96,3 +96,25 @@ func TestWelcome(t *testing.T) {
 		})
 	}
 }
+
+func TestCheer(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  string
+	}{
+		{name: "direct name", input: "Ada", want: "Well done, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Well done, Ada!"},
+		{name: "empty name", input: "", want: "Well done!"},
+		{name: "whitespace-only name", input: " ", want: "Well done!"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Cheer(tt.input)
+			if got != tt.want {
+				t.Errorf("Cheer(%q) = %q, want %q", tt.input, got, tt.want)
+			}
+		})
+	}
+}
