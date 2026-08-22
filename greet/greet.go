@@ -52,12 +52,3 @@ func Congrats(name string) string {
 	}
 	return "Congrats, " + name + "!"
 }
-
-// Cheer returns a congratulatory message for the given name.
-func Cheer(name string) string {
-	name = normalizeName(name)
-	if name == "" {
-		return "Nice work!"
-	}
-	return "Nice work, " + name + "!"
-}
