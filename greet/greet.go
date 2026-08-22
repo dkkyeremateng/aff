@@ -57,7 +57,7 @@ func Congrats(name string) string {
 func Cheer(name string) string {
 	name = normalizeName(name)
 	if name == "" {
-		return "Well done!"
+		return "Nice work!"
 	}
-	return "Well done, " + name + "!"
+	return "Nice work, " + name + "!"
 }

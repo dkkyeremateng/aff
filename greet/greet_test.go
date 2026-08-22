@@ -103,10 +103,10 @@ func TestCheer(t *testing.T) {
 		input string
 		want  string
 	}{
-		{name: "direct name", input: "Ada", want: "Well done, Ada!"},
-		{name: "whitespace-padded name", input: " Ada ", want: "Well done, Ada!"},
-		{name: "empty name", input: "", want: "Well done!"},
-		{name: "whitespace-only name", input: " ", want: "Well done!"},
+		{name: "direct name", input: "Ada", want: "Nice work, Ada!"},
+		{name: "whitespace-padded name", input: " Ada ", want: "Nice work, Ada!"},
+		{name: "empty name", input: "", want: "Nice work!"},
+		{name: "whitespace-only name", input: " ", want: "Nice work!"},
 	}
 
 	for _, tt := range tests {
