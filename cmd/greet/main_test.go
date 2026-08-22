@@ -10,6 +10,7 @@ func TestRun(t *testing.T) {
 	tests := []struct {
 		name            string
 		args            []string
+		stdin           string
 		wantCode        int
 		wantStdout      string
 		stdoutContains  []string
@@ -48,6 +49,53 @@ func TestRun(t *testing.T) {
 			wantCode:        0,
 			wantStdout:      "Hello there!\n",
 			wantStderrEmpty: true,
+		},
+		{
+			name:            "stdin name",
+			args:            nil,
+			stdin:           "Ada\n",
+			wantCode:        0,
+			wantStdout:      "Hello, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "stdin name padded",
+			args:            nil,
+			stdin:           " Ada \n",
+			wantCode:        0,
+			wantStdout:      "Hello, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "stdin whitespace only",
+			args:            nil,
+			stdin:           " \n\t",
+			wantCode:        0,
+			wantStdout:      "Hello there!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "flag wins over stdin",
+			args:            []string{"--name", "Ada"},
+			stdin:           "Bob\n",
+			wantCode:        0,
+			wantStdout:      "Hello, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "empty name flag ignores stdin",
+			args:            []string{"--name", ""},
+			stdin:           "Bob\n",
+			wantCode:        0,
+			wantStdout:      "Hello there!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:           "version ignores stdin",
+			args:           []string{"--version"},
+			stdin:          "Ada\n",
+			wantCode:       0,
+			stdoutContains: []string{"greet version dev"},
 		},
 		{
 			name:           "version flag",
@@ -92,7 +140,7 @@ func TestRun(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var stdout, stderr bytes.Buffer
-			code := run(tt.args, &stdout, &stderr)
+			code := run(tt.args, strings.NewReader(tt.stdin), &stdout, &stderr)
 			if code != tt.wantCode {
 				t.Errorf("run(%q) exit code = %d, want %d", tt.args, code, tt.wantCode)
 			}
@@ -121,5 +169,11 @@ func TestRun(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestStdinIsTerminalNonFileReader(t *testing.T) {
+	if stdinIsTerminal(strings.NewReader("Ada\n")) {
+		t.Error("stdinIsTerminal(strings.Reader) = true, want false")
 	}
 }
