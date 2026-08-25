@@ -15,6 +15,11 @@ import (
 // -ldflags "-X main.version=<value>", which is the form main already carried.
 var version = "dev"
 
+// revision is an optional build revision reported alongside version.
+// A release build can set it with -ldflags "-X main.revision=<value>";
+// it stays empty for a default build.
+var revision = ""
+
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))
 }
@@ -56,7 +61,11 @@ func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	}
 
 	if *showVersion {
-		fmt.Fprintf(stdout, "greet version %s\n", version)
+		if strings.TrimSpace(revision) != "" {
+			fmt.Fprintf(stdout, "greet version %s (%s)\n", version, revision)
+		} else {
+			fmt.Fprintf(stdout, "greet version %s\n", version)
+		}
 		return 0
 	}
 
