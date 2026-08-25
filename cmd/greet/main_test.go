@@ -259,6 +259,39 @@ func TestRun(t *testing.T) {
 	}
 }
 
+func TestRunVersionWithRevision(t *testing.T) {
+	tests := []struct {
+		name       string
+		revision   string
+		wantStdout string
+	}{
+		{name: "revision set", revision: "abc1234", wantStdout: "greet version dev (abc1234)\n"},
+		{name: "revision whitespace only", revision: " \t\n", wantStdout: "greet version dev\n"},
+		{name: "revision empty", revision: "", wantStdout: "greet version dev\n"},
+		{name: "revision padded", revision: " abc1234 ", wantStdout: "greet version dev ( abc1234 )\n"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			old := revision
+			revision = tt.revision
+			defer func() { revision = old }()
+
+			var stdout, stderr bytes.Buffer
+			code := run([]string{"--version"}, strings.NewReader(""), &stdout, &stderr)
+			if code != 0 {
+				t.Errorf("run(--version) exit code = %d, want 0", code)
+			}
+			if stdout.String() != tt.wantStdout {
+				t.Errorf("run(--version) stdout = %q, want %q", stdout.String(), tt.wantStdout)
+			}
+			if stderr.String() != "" {
+				t.Errorf("run(--version) stderr = %q, want empty", stderr.String())
+			}
+		})
+	}
+}
+
 func TestStdinIsTerminalNonFileReader(t *testing.T) {
 	if stdinIsTerminal(strings.NewReader("Ada\n")) {
 		t.Error("stdinIsTerminal(strings.Reader) = true, want false")
