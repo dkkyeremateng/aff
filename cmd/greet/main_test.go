@@ -91,6 +91,70 @@ func TestRun(t *testing.T) {
 			wantStderrEmpty: true,
 		},
 		{
+			name:            "style farewell with name",
+			args:            []string{"--style", "farewell", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "Goodbye, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "style thanks with name",
+			args:            []string{"--style", "thanks", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "Thanks, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "style welcome with name",
+			args:            []string{"--style", "welcome", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "Welcome, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "style congrats with name",
+			args:            []string{"--style", "congrats", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "Congrats, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "style salute with name",
+			args:            []string{"--style", "salute", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "Respect, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "style cheer with name",
+			args:            []string{"--style", "cheer", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "Nice work, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "style hello explicit with name",
+			args:            []string{"--style", "hello", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "Hello, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "style farewell empty stdin",
+			args:            []string{"--style", "farewell"},
+			stdin:           "\n",
+			wantCode:        0,
+			wantStdout:      "Goodbye there!\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:           "unsupported style",
+			args:           []string{"--style", "frobnicate"},
+			wantCode:       2,
+			stderrContains: []string{"unknown style: frobnicate", "--help"},
+			wantStderrOnly: true,
+		},
+		{
 			name:           "version ignores stdin",
 			args:           []string{"--version"},
 			stdin:          "Ada\n",
@@ -137,9 +201,10 @@ func TestRun(t *testing.T) {
 				"\n" +
 				"Flags:\n" +
 				" -n, --name string name to greet\n" +
+				" --style string greeting style: hello, farewell, thanks, welcome, congrats, salute, or cheer\n" +
 				" --version         print the version and exit\n" +
 				" --help            show this help\n",
-			stdoutContains: []string{"-n", "--name", "--version"},
+			stdoutContains: []string{"-n", "--name", "--version", "--style", "hello", "farewell", "thanks", "welcome", "congrats", "salute", "cheer"},
 		},
 	}
 

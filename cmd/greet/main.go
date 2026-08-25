@@ -27,6 +27,17 @@ func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	fs.StringVar(&name, "name", "", "name to greet")
 	fs.StringVar(&name, "n", "", "name to greet (shorthand)")
 	showVersion := fs.Bool("version", false, "print the version and exit")
+	style := fs.String("style", "hello", "greeting style: hello, farewell, thanks, welcome, congrats, salute, or cheer")
+
+	formatters := map[string]func(string) string{
+		"hello":    greet.Hello,
+		"farewell": greet.Farewell,
+		"thanks":   greet.Thanks,
+		"welcome":  greet.Welcome,
+		"congrats": greet.Congrats,
+		"salute":   greet.Salute,
+		"cheer":    greet.Cheer,
+	}
 
 	fs.Usage = func() {}
 
@@ -49,6 +60,13 @@ func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 		return 0
 	}
 
+	format, ok := formatters[*style]
+	if !ok {
+		fmt.Fprintf(stderr, "greet: unknown style: %s\n", *style)
+		fmt.Fprintln(stderr, "Run 'greet --help' for usage.")
+		return 2
+	}
+
 	nameProvided := false
 	fs.Visit(func(f *flag.Flag) {
 		if f.Name == "name" || f.Name == "n" {
@@ -65,7 +83,7 @@ func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 		name = strings.TrimSpace(string(data))
 	}
 
-	fmt.Fprintln(stdout, greet.Hello(name))
+	fmt.Fprintln(stdout, format(name))
 	return 0
 }
 
@@ -86,6 +104,7 @@ func printUsage(stdout io.Writer) {
 	fmt.Fprintln(stdout)
 	fmt.Fprintln(stdout, "Flags:")
 	fmt.Fprintln(stdout, " -n, --name string name to greet")
+	fmt.Fprintln(stdout, " --style string greeting style: hello, farewell, thanks, welcome, congrats, salute, or cheer")
 	fmt.Fprintln(stdout, " --version         print the version and exit")
 	fmt.Fprintln(stdout, " --help            show this help")
 }
