@@ -74,6 +74,12 @@ func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 		}
 	})
 
+	if nameProvided && strings.TrimSpace(name) == "" {
+		fmt.Fprintln(stderr, "greet: name cannot be empty")
+		fmt.Fprintln(stderr, "Run 'greet --help' for usage.")
+		return 2
+	}
+
 	if !nameProvided && !stdinIsTerminal(stdin) {
 		data, err := io.ReadAll(stdin)
 		if err != nil {
