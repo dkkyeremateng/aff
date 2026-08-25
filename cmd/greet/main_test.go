@@ -11,6 +11,7 @@ func TestRun(t *testing.T) {
 		name            string
 		args            []string
 		stdin           string
+		revision        string
 		wantCode        int
 		wantStdout      string
 		stdoutContains  []string
@@ -171,29 +172,49 @@ func TestRun(t *testing.T) {
 			wantStderrOnly: true,
 		},
 		{
-			name:           "version ignores stdin",
-			args:           []string{"--version"},
-			stdin:          "Ada\n",
-			wantCode:       0,
-			stdoutContains: []string{"greet version dev"},
+			name:            "version ignores stdin",
+			args:            []string{"--version"},
+			stdin:           "Ada\n",
+			wantCode:        0,
+			wantStdout:      "greet version dev\n",
+			wantStderrEmpty: true,
 		},
 		{
-			name:           "version flag",
-			args:           []string{"--version"},
-			wantCode:       0,
-			stdoutContains: []string{"greet version dev"},
+			name:            "version flag",
+			args:            []string{"--version"},
+			wantCode:        0,
+			wantStdout:      "greet version dev\n",
+			wantStderrEmpty: true,
 		},
 		{
-			name:           "version wins over name",
-			args:           []string{"--version", "--name", "Ada"},
-			wantCode:       0,
-			stdoutContains: []string{"greet version dev"},
+			name:            "version wins over name",
+			args:            []string{"--version", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "greet version dev\n",
+			wantStderrEmpty: true,
 		},
 		{
-			name:           "version wins over shorthand",
-			args:           []string{"--version", "-n", "Ada"},
-			wantCode:       0,
-			stdoutContains: []string{"greet version dev"},
+			name:            "version wins over shorthand",
+			args:            []string{"--version", "-n", "Ada"},
+			wantCode:        0,
+			wantStdout:      "greet version dev\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "version with revision",
+			args:            []string{"--version"},
+			revision:        "abc123",
+			wantCode:        0,
+			wantStdout:      "greet version dev (abc123)\n",
+			wantStderrEmpty: true,
+		},
+		{
+			name:            "version with whitespace-only revision",
+			args:            []string{"--version"},
+			revision:        "  \n",
+			wantCode:        0,
+			wantStdout:      "greet version dev\n",
+			wantStderrEmpty: true,
 		},
 		{
 			name:           "unknown flag",
@@ -226,6 +247,10 @@ func TestRun(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			oldRevision := revision
+			revision = tt.revision
+			defer func() { revision = oldRevision }()
+
 			var stdout, stderr bytes.Buffer
 			code := run(tt.args, strings.NewReader(tt.stdin), &stdout, &stderr)
 			if code != tt.wantCode {

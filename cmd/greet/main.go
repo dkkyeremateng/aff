@@ -14,6 +14,7 @@ import (
 // development default so a release build can override it with
 // -ldflags "-X main.version=<value>", which is the form main already carried.
 var version = "dev"
+var revision string
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))
@@ -56,7 +57,11 @@ func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	}
 
 	if *showVersion {
-		fmt.Fprintf(stdout, "greet version %s\n", version)
+		if strings.TrimSpace(revision) == "" {
+			fmt.Fprintf(stdout, "greet version %s\n", version)
+		} else {
+			fmt.Fprintf(stdout, "greet version %s (%s)\n", version, revision)
+		}
 		return 0
 	}
 
