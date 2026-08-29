@@ -37,6 +37,62 @@ func TestRun(t *testing.T) {
 			wantStdout: "Hello, Ada!\n",
 		},
 		{
+			name:       "style hello",
+			args:       []string{"--style", "hello", "--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Hello, Ada!\n",
+		},
+		{
+			name:       "style farewell",
+			args:       []string{"--style", "farewell", "--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Goodbye, Ada!\n",
+		},
+		{
+			name:       "style thanks",
+			args:       []string{"--style", "thanks", "--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Thanks, Ada!\n",
+		},
+		{
+			name:       "style welcome",
+			args:       []string{"--style", "welcome", "--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Welcome, Ada!\n",
+		},
+		{
+			name:       "style congrats",
+			args:       []string{"--style", "congrats", "--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Congrats, Ada!\n",
+		},
+		{
+			name:       "style salute",
+			args:       []string{"--style", "salute", "--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Respect, Ada!\n",
+		},
+		{
+			name:       "style cheer",
+			args:       []string{"--style", "cheer", "--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Nice work, Ada!\n",
+		},
+		{
+			name:       "default style hello",
+			args:       []string{"--name", "Ada"},
+			wantCode:   0,
+			wantStdout: "Hello, Ada!\n",
+		},
+		{
+			name:            "style with stdin",
+			args:            []string{"--style", "salute"},
+			stdin:           " Ada \n",
+			wantCode:        0,
+			wantStdout:      "Respect, Ada!\n",
+			wantStderrEmpty: true,
+		},
+		{
 			name:            "no args",
 			args:            nil,
 			wantCode:        0,
@@ -116,6 +172,13 @@ func TestRun(t *testing.T) {
 			stdoutContains: []string{"greet version dev"},
 		},
 		{
+			name:            "version wins over style",
+			args:            []string{"--version", "--style", "cheer", "--name", "Ada"},
+			wantCode:        0,
+			wantStdout:      "greet version dev\n",
+			wantStderrEmpty: true,
+		},
+		{
 			name:           "unknown flag",
 			args:           []string{"--frobnicate"},
 			wantCode:       2,
@@ -130,6 +193,20 @@ func TestRun(t *testing.T) {
 			wantStderrOnly: true,
 		},
 		{
+			name:           "invalid style",
+			args:           []string{"--style", "wave", "--name", "Ada"},
+			wantCode:       2,
+			stderrContains: []string{"wave", "hello, farewell, thanks, welcome, congrats, salute, cheer", "--help"},
+			wantStderrOnly: true,
+		},
+		{
+			name:           "invalid style equals",
+			args:           []string{"--style=wave", "--name", "Ada"},
+			wantCode:       2,
+			stderrContains: []string{"wave", "hello, farewell, thanks, welcome, congrats, salute, cheer", "--help"},
+			wantStderrOnly: true,
+		},
+		{
 			name:     "help flag",
 			args:     []string{"--help"},
 			wantCode: 0,
@@ -137,9 +214,10 @@ func TestRun(t *testing.T) {
 				"\n" +
 				"Flags:\n" +
 				" -n, --name string name to greet\n" +
-				" --version         print the version and exit\n" +
-				" --help            show this help\n",
-			stdoutContains: []string{"-n", "--name", "--version"},
+				" --style string    greeting style (hello, farewell, thanks, welcome, congrats, salute, cheer; default hello)\n" +
+				" --version print the version and exit\n" +
+				" --help show this help\n",
+			stdoutContains: []string{"-n", "--name", "--style", "--version"},
 		},
 	}
 
